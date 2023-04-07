@@ -8,7 +8,7 @@ public interface ProductDAO {
 
     Product getById(long id);
 
-    int update(Product product);
+    int update(long id, Product product);
 
     int deleteById(long id);
 

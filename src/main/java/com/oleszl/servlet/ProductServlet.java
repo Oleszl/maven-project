@@ -63,4 +63,25 @@ public class ProductServlet extends HttpServlet {
             resp.getWriter().write(respJson);
         }
     }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String[] pathInfo = null;
+        Product product = RestUtil.getFromJson(req, Product.class);
+        try {
+            pathInfo = req.getPathInfo().split("/");
+        } catch (Exception e) {
+            resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            resp.getWriter().write("Product ID not provided");
+        }
+        int id = Integer.parseInt(pathInfo[1]);
+        int status = productService.update(id, product);
+        if (status == 400) {
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            resp.getWriter().write("Product not found with provided id");
+        } else {
+            String respJson = RestUtil.toJson("Product updated successfully");
+            resp.getWriter().write(respJson);
+        }
+    }
 }

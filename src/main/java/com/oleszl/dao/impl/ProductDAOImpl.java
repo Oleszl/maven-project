@@ -53,8 +53,24 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public int update(Product product) {
-        return 0;
+    public int update(long id, Product product) {
+        String SQL = "UPDATE product set name = ?, price = ? WHERE id =?";
+        int status = 400;
+
+        try (
+                Connection connection = MySQLConnector.getConnection();
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL);
+        ) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setBigDecimal(2, product.getPrice());
+            preparedStatement.setLong(3, id);
+
+            preparedStatement.execute();
+            status = 200;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return status;
     }
 
     @Override
