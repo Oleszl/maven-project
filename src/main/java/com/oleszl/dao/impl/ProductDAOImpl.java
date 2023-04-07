@@ -53,9 +53,9 @@ public class ProductDAOImpl implements ProductDAO {
     }
 
     @Override
-    public int update(long id, Product product) {
+    public int updateById(long id, Product product) {
         String SQL = "UPDATE product set name = ?, price = ? WHERE id =?";
-        int status = 400;
+        int status = 404;
 
         try (
                 Connection connection = MySQLConnector.getConnection();

@@ -76,7 +76,7 @@ public class ProductServlet extends HttpServlet {
         }
         int id = Integer.parseInt(pathInfo[1]);
         int status = productService.update(id, product);
-        if (status == 400) {
+        if (status == 404) {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
             resp.getWriter().write("Product not found with provided id");
         } else {
